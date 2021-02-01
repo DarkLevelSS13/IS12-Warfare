@@ -29,12 +29,13 @@ GLOBAL_LIST_EMPTY(mortar_areas) // = list()
 	var/captured = null
 	turf_initializer = /decl/turf_initializer/oldfare
 	var/can_pre_enter = FALSE
+	//forced_ambience = list('sound/effects/siegestorm.ogg')
 
 /area/warfare/battlefield/trench_section//So they can cross atop their trench section.
 	can_pre_enter = TRUE
 
 /area/warfare/battlefield/trench_section/underground//So it doesn't spawn random shit underground.
-	forced_ambience = null
+	//forced_ambience = list('sound/effects/siegestorm-indoor.ogg')
 	turf_initializer = null
 
 
@@ -44,6 +45,7 @@ GLOBAL_LIST_EMPTY(mortar_areas) // = list()
 		L.clear_fullscreen("fog")
 		L.clear_fullscreen("ash")
 		L.clear_fullscreen("fallout")
+		//L.clear_fullscreen("rain")
 
 /area/warfare/battlefield/no_mans_land
 	name = "\improper No Man\'s Land"
@@ -58,13 +60,7 @@ GLOBAL_LIST_EMPTY(mortar_areas) // = list()
 		L.overlay_fullscreen("fog", /obj/screen/fullscreen/fog)
 		L.overlay_fullscreen("fallout", /obj/screen/fullscreen/fallout)
 		L.overlay_fullscreen("ash", /obj/screen/fullscreen/storm)
-
-/area/warfare/battlefield/Exited(mob/living/L, area/A)
-	. = ..()
-	if(istype(L) && !istype(A, /area/warfare/battlefield))
-		L.clear_fullscreen("fog")
-		L.clear_fullscreen("ash")
-		L.clear_fullscreen("fallout")
+		//L.overlay_fullscreen("rain", /obj/screen/fullscreen/siegestorm)
 
 /area/warfare/battlefield/capture_point
 	name = "\improper Capture Point"
@@ -239,9 +235,24 @@ GLOBAL_LIST_EMPTY(mortar_areas) // = list()
 	icon_state = "start"
 	requires_power = FALSE
 
+/area/warfare/homebase/Entered(mob/living/L, area/A)
+	. = ..()
+	if(istype(L) && !istype(A, /area/warfare/battlefield))
+		L.clear_fullscreen("fog")
+		L.clear_fullscreen("ash")
+		L.clear_fullscreen("fallout")
+		//L.clear_fullscreen("rain")
+
 /area/warfare/homebase/red
 	name = "\improper Red Base"
 	icon_state = "security"
+	forced_ambience = null
+
+/area/warfare/homebase/red/foyer
+	//forced_ambience = list('sound/effects/siegestorm-indoor.ogg')
+
+/area/warfare/homebase/red/outside
+	//forced_ambience = list('sound/effects/siegestorm.ogg')
 
 /area/warfare/homebase/red/Enter(atom/movable/AM)
 	if(ishuman(AM))
@@ -255,6 +266,13 @@ GLOBAL_LIST_EMPTY(mortar_areas) // = list()
 /area/warfare/homebase/blue
 	name = "\improper Blue Base"
 	icon_state = "showroom"
+	forced_ambience = null
+
+/area/warfare/homebase/blue/foyer
+	//forced_ambience = list('sound/effects/siegestorm-indoor.ogg')
+
+/area/warfare/homebase/blue/outside
+	//forced_ambience = list('sound/effects/siegestorm.ogg')
 
 /area/warfare/homebase/blue/Enter(atom/movable/AM)
 	if(ishuman(AM))
@@ -263,3 +281,15 @@ GLOBAL_LIST_EMPTY(mortar_areas) // = list()
 			to_chat(H, "<big>WE DO NOT CONTROL THE TRENCHES!</big>")
 			return FALSE
 	return TRUE
+
+/area/warfare/farawayhome
+	name = "\improper Far Away"
+	icon_state = "start"
+
+/area/warfare/farawayhome/Enter(atom/movable/mover as mob|obj, atom/forget as mob|obj|turf|area)
+	if(!iswarfare())
+		return TRUE
+	if(ishuman(mover))
+		var/mob/living/carbon/human/H = mover
+		to_chat(H, "<big>I CANNOT DISOBEY ORDERS!</big>")
+	return FALSE

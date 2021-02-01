@@ -6,7 +6,10 @@
 			if(ishuman(user))
 				var/mob/living/carbon/human/H = user
 				if(H.warfare_faction != src.warfare_faction)
-					to_chat(user, "<span class='warning'><big><b>THEY ARE THE ENEMY! KILL THEM!</b></big></span>")
+					if(aspect_chosen(/datum/aspect/trenchmas))
+						to_chat(user, "<span class='warning'><big><b>THEY ARE A FRIEND! HUG THEM!</b></big></span>")
+					else
+						to_chat(user, "<span class='warning'><big><b>THEY ARE THE ENEMY! KILL THEM!</b></big></span>")
 
 			if(crouching)
 				to_chat(user, "<span class='warning'>They are crouching!</span>")
@@ -71,7 +74,10 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.warfare_faction != src.warfare_faction)
-			msg += "<span class='warning'><big><b>THEY ARE THE ENEMY! KILL THEM!</b></big></span>\n"
+			if(aspect_chosen(/datum/aspect/trenchmas))
+				msg += "<span class='warning'><big><b>THEY ARE A FRIEND! HUG THEM!</b></big></span>\n"
+			else
+				msg += "<span class='warning'><big><b>THEY ARE THE ENEMY! KILL THEM!</b></big></span>\n"
 
 		if(H != src)
 			if(H.warfare_faction == src.warfare_faction)
@@ -308,7 +314,12 @@
 		for(var/datum/wound/wound in E.wounds)
 			if(wound.embedded_objects.len)
 				shown_objects += wound.embedded_objects
-				wound_flavor_text["[E.name]"] += "The [wound.desc] on [T.his] [E.name] has \a [english_list(wound.embedded_objects, and_text = " and \a ", comma_text = ", \a ")] sticking out of it!<br>"
+				var/shrapnel_amount = ""
+				if(wound.embedded_objects.len > 5)
+					shrapnel_amount = "a lot of"
+				else if(wound.embedded_objects.len > 1 && wound.embedded_objects.len <= 5)
+					shrapnel_amount = "some"
+				wound_flavor_text["[E.name]"] += "The [wound.desc] on [T.his] [E.name] has [shrapnel_amount] shrapnel sticking out of it!<br>"//THINGS THAT ARE NOT SHRAPNEL CANNOT EMBED! YOU WOULD NOT HAVE ANYTHING ELSE EMBEDED IN YOU!
 
 	msg += "<span class='warning'>"
 	for(var/limb in wound_flavor_text)

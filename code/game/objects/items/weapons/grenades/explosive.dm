@@ -20,6 +20,7 @@
 	icon_state = "frggrenade"
 	arm_sound = 'sound/weapons/grenade_arm.ogg'
 	throw_range = 10
+	icon = 'icons/obj/grenade.dmi'
 
 	var/list/fragment_types = list(/obj/item/projectile/bullet/pellet/fragment = 1)
 	var/num_fragments = 72  //total number of fragments produced by the grenade
@@ -27,6 +28,14 @@
 
 	//The radius of the circle used to launch projectiles. Lower values mean less projectiles are used but if set too low gaps may appear in the spread pattern
 	var/spread_range = 7 //leave as is, for some reason setting this higher makes the spread pattern have gaps close to the epicenter
+
+/obj/item/grenade/frag/attack_self(mob/user as mob)
+	if(aspect_chosen(/datum/aspect/trenchmas))
+		return
+	if(aspect_chosen(/datum/aspect/no_guns))//No grenades in slappers only please.
+		to_chat(user, "The pin seems stuck, it won't go off.")
+		return
+	..()
 
 /obj/item/grenade/frag/detonate()
 	..()
@@ -67,6 +76,25 @@
 				P.attack_mob(M, 0, 25) //you're holding a grenade, dude!
 			else
 				P.attack_mob(M, 0, 100) //otherwise, allow a decent amount of fragments to pass
+
+/obj/item/grenade/fire
+	name = "incendiary grenade"
+	desc = "A military incendiary grenade designed to spread and ignite a vast ammount of highly flammable liquid."
+	icon_state = "fire_grenade"
+	arm_sound = 'sound/weapons/grenade_arm.ogg'
+	throw_range = 10
+
+	var/fire_range = 2 // size of the fire zone
+
+/obj/item/grenade/fire/detonate()
+	..()
+
+	var/turf/O = get_turf(src)
+	if(!O) return
+
+	new /obj/flamer_fire(loc, 8, 6, "red", fire_range)
+
+	qdel(src)
 
 /obj/mortar/frag
 	name = "Mortar"

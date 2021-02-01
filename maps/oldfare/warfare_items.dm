@@ -136,6 +136,33 @@
 	icon_state = "redoffcap"
 	item_state = "redoffcap"
 	warfare_team = RED_TEAM
+	cold_protection = HEAD
+	min_cold_protection_temperature = HELMET_MIN_COLD_PROTECTION_TEMPERATURE
+	body_parts_covered = HEAD
+
+/obj/item/clothing/head/redcoat/redgarrisoncap
+	name = "Red Garrison Cap"
+	icon_state = "redgarrisoncap"
+	item_state = "redgarrisoncap"
+	warfare_team = RED_TEAM
+
+/obj/item/clothing/head/redcoat/redsargecap
+	name = "Red Garrison Cap"
+	icon_state = "redsargecap"
+	item_state = "redsargecap"
+	warfare_team = RED_TEAM
+
+/obj/item/clothing/head/redcoat/redmedicalcap
+	name = "Red Garrison Cap"
+	icon_state = "redmedicalcap"
+	item_state = "redmedicalcap"
+	warfare_team = RED_TEAM
+
+/obj/item/clothing/head/redcoat/rednursehat
+	name = "Red Nurse Hat"
+	icon_state = "rednursehat"
+	item_state = "rednursehat"
+	warfare_team = RED_TEAM
 
 /obj/item/clothing/head/helmet/redhelmet
 	name = "Red's Helmet"
@@ -145,16 +172,13 @@
 
 /obj/item/clothing/head/helmet/redhelmet/medic
 	icon_state = "redhelmet_medic"
-//	starting_accessories = list(/obj/item/clothing/accessory/helm_patch/medic)
 
 /obj/item/clothing/head/helmet/redhelmet/leader
 	icon_state = "redhelmet_leader"
-//	starting_accessories = list(/obj/item/clothing/accessory/helm_patch/leader)
 
 /obj/item/clothing/head/helmet/redhelmet/sniper
 	icon_state = "redsniperhelmet"
 	item_state = "redsniperhelmet"
-//	starting_accessories = list(/obj/item/clothing/accessory/helm_patch/leader)
 
 
 //Nam shit
@@ -244,6 +268,33 @@
 	icon_state = "blueoffcap"
 	item_state = "blueoffcap"
 	warfare_team = BLUE_TEAM
+	cold_protection = HEAD
+	min_cold_protection_temperature = HELMET_MIN_COLD_PROTECTION_TEMPERATURE
+	body_parts_covered = HEAD
+
+/obj/item/clothing/head/bluecoat/bluegarrisoncap
+	name = "Blue Garrison Cap"
+	icon_state = "bluegarrisoncap"
+	item_state = "bluegarrisoncap"
+	warfare_team = BLUE_TEAM
+
+/obj/item/clothing/head/bluecoat/bluesargecap
+	name = "Blue Garrison Cap"
+	icon_state = "bluesargecap"
+	item_state = "bluesargecap"
+	warfare_team = BLUE_TEAM
+
+/obj/item/clothing/head/bluecoat/bluemedicalcap
+	name = "Blue Garrison Cap"
+	icon_state = "bluemedicalcap"
+	item_state = "bluemedicalcap"
+	warfare_team = BLUE_TEAM
+
+/obj/item/clothing/head/bluecoat/bluenursehat
+	name = "Blue Nurse Hat"
+	icon_state = "bluenursehat"
+	item_state = "bluenursehat"
+	warfare_team = BLUE_TEAM
 
 //Helmets
 /obj/item/clothing/head/helmet/bluehelmet
@@ -254,16 +305,13 @@
 
 /obj/item/clothing/head/helmet/bluehelmet/medic
 	icon_state = "bluehelmet_medic"
-//	starting_accessories = list(/obj/item/clothing/accessory/helm_patch/medic)
 
 /obj/item/clothing/head/helmet/bluehelmet/leader
 	icon_state = "bluehelmet_leader"
-//	starting_accessories = list(/obj/item/clothing/accessory/helm_patch/leader)
 
 /obj/item/clothing/head/helmet/bluehelmet/sniper
 	icon_state = "bluesniperhelmet"
 	item_state = "bluesniperhelmet"
-//	starting_accessories = list(/obj/item/clothing/accessory/helm_patch/leader)
 
 /obj/item/card/id/dog_tag
 	var/warfare_faction = null
@@ -509,6 +557,22 @@
 		new /obj/item/ammo_magazine/mc9mmt/machinepistol(src)
 		new /obj/item/ammo_magazine/mc9mmt/machinepistol(src)
 
+/obj/item/storage/belt/armageddon
+	name = "ammo belt"
+	desc = "Great for holding ammo! This one starts with Armageddon ammo."
+	icon_state = "warfare_belt"
+	item_state = "warfare_belt"
+	can_hold = list(
+		/obj/item/ammo_magazine,
+		)
+
+	New()
+		..()
+		new /obj/item/ammo_magazine/a762/rsc(src)
+		new /obj/item/ammo_magazine/a762/rsc(src)
+		new /obj/item/ammo_magazine/a762/rsc(src)
+		new /obj/item/ammo_magazine/a762/rsc(src)
+
 /obj/item/storage/belt/warfare/chestrig
 	name = "Chestrig"
 	desc = "Holds ammo. But not much else."
@@ -617,3 +681,11 @@
 		user.doing_something = FALSE
 	else
 		to_chat(user, "You're already trying to suture them.")
+
+
+/obj/item/grenade_dud
+	name = "Dud"
+	desc = "This grenade doesn't look like it'll function properly. Might make a decent club?"
+	icon = 'icons/obj/grenade.dmi'
+	icon_state = "stick0"
+	force = 10

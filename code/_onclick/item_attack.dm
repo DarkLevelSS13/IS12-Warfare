@@ -71,6 +71,11 @@ avoid code duplication. This includes items that may sometimes act as a standard
 	if(ticker.current_state == GAME_STATE_FINISHED)
 		to_chat(user, "<span class='warning'>The battle is over! There is no need to fight!</span>")
 		return 0
+
+	if(aspect_chosen(/datum/aspect/trenchmas))
+		to_chat(user, "<span class='warning'>It's trenchmas! There is no reason to fight!</span>")
+		return 0
+
 	if(M == user && user.a_intent != I_HURT)
 		return 0
 
@@ -110,9 +115,12 @@ avoid code duplication. This includes items that may sometimes act as a standard
 			M.setClickCooldown(DEFAULT_SLOW_COOLDOWN)
 			apply_speed_delay(0)
 			user.visible_message("<span class='combat_success'>[user] performs a successful feint attack!</span>")
+			if(M.atk_intent == I_DEFENSE)
+				if(M.combat_mode)
+					M.item_disarm()
 			return 0 //We fiented them don't actaully hit them now, we can follow up with another attack.
 
-		else if(user.atk_intent == I_OFFENSE)//Attack with stronger damage at the cost slightly longer cooldown
+		else if(user.atk_intent == I_STRONG)//Attack with stronger damage at the cost slightly longer cooldown
 			user.visible_message("<span class='combat_success'>[user] performs a heavy attack!</span>")
 			user.adjustStaminaLoss(w_class + 5)
 			user.setClickCooldown(DEFAULT_SLOW_COOLDOWN)
